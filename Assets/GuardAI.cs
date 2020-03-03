@@ -7,6 +7,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(NavMeshAgent))]
 public class GuardAI : MonoBehaviour
 {
+    //hier ist eine Änderung
     public float sightRange = 4;
     public float awareness = 0.02f;
     public Transform goal;
