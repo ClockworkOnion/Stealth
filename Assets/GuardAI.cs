@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class GuardAI : MonoBehaviour
@@ -15,6 +16,7 @@ public class GuardAI : MonoBehaviour
     float FOVinterpolation = 0f;
 
     GameManager gameManager;
+    public UnityEvent playerSeen;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +45,7 @@ public class GuardAI : MonoBehaviour
         if (seen && hit.collider.gameObject.tag=="Player") {
             Debug.Log("Player seen");
             agent.destination = hit.transform.position;
+            playerSeen.Invoke();
         }
     }
     
