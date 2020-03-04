@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Canvas UICanvas;
     public Text gameOverText;
     public Text scoreText;
+    Text DebugText;
     PlayerControl player;
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
         gameManager = this;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
         scoreText.text = "Score: 0";
+        DebugText = GameObject.Find("DebugText").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -35,5 +37,9 @@ public class GameManager : MonoBehaviour
     public void GetPoints(int points) {
         Score += points;
         scoreText.text = "Score: " + Score.ToString();
+    }
+
+    public void SetDebugText(string debugText) {
+        DebugText.text = debugText;
     }
 }
