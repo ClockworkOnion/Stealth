@@ -149,7 +149,7 @@ public class GuardAI : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            GameManager.GetInstance().SetGameOver();
+            GameManager.GetInstance().SetGameLost();
         }
     }
 

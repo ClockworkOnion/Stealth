@@ -1,14 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Stopwatch : MonoBehaviour
+public class PlayerGoal : MonoBehaviour
 {
-    static Stopwatch instance;
     // Start is called before the first frame update
-    void Awake() {
-        instance = this;
-    }
     void Start()
     {
         
@@ -20,11 +17,7 @@ public class Stopwatch : MonoBehaviour
         
     }
 
-    public void Reset(){
-
-    }
-
-    public Stopwatch GetInstance() {
-        return instance;
+    void OnTriggerEnter(Collider collider) {
+        
     }
 }

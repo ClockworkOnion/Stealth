@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour
     public bool gameOver = false;
 
     public Canvas UICanvas;
-    public Text gameOverText;
+    public Canvas gameLostCanvas, gameWonCanvas;
     public Text scoreText;
     Text DebugText;
     PlayerControl player;
@@ -24,14 +25,28 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+        gameLostCanvas = GameObject.Find("LostCanvas").GetComponent<Canvas>();
+        gameLostCanvas.enabled = false;
+        gameWonCanvas = GameObject.Find("WonCanvas").GetComponent<Canvas>();
+        gameWonCanvas.enabled = false;
         scoreText.text = "Score: 0";
         DebugText = GameObject.Find("DebugText").GetComponent<Text>();
+
+
+
     }
 
-    public void SetGameOver() {
+    public void SetGameLost() {
         Debug.Log("Game Over");
         gameOver = true;
-        gameOverText.enabled = true;
+        Stopwatch.GetInstance().SetPause(true);
+        gameLostCanvas.enabled = true;
+    }
+
+    public void SetGameWon() {
+        gameOver = true;
+        Stopwatch.GetInstance().SetPause(true);
+        gameWonCanvas.enabled = true;
     }
 
     public void GetPoints(int points) {
