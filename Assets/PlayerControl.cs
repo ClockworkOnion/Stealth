@@ -8,7 +8,6 @@ public class PlayerControl : MonoBehaviour
     float xAxis, yAxis;
     bool runButton;
     public float playerSpeed = 2;
-    public bool gameOver = false;
     Rigidbody rigidBody;
     Vector3 lastPosition;
     Vector3 prediction;
@@ -22,7 +21,7 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameOver) {
+        if (!GameManager.GetInstance().gameOver) {
             xAxis = -Input.GetAxis("Horizontal"); // Umgedrehte Achse??
             yAxis = -Input.GetAxis("Vertical");
             runButton = Input.GetKey("x");
@@ -39,7 +38,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if (!gameOver) {
+        if (!GameManager.GetInstance().gameOver) {
             Vector3 movement = new Vector3(xAxis, 0, yAxis);
             // rigidBody.AddForce(new Vector3(xAxis * playerSpeed * Time.deltaTime, 0, yAxis * playerSpeed * Time.deltaTime));
             transform.position = transform.position + movement * playerSpeed * Time.deltaTime;

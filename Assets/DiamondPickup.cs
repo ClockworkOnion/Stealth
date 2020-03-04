@@ -8,7 +8,7 @@ public class DiamondPickup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        gameManager = GameManager.GetInstance();
     }
 
        void OnTriggerEnter (Collider collider) {
