@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class GlobalManager : MonoBehaviour
 {
 
+    static readonly int NUMBER_OF_LEVELS = 3;
     static GlobalManager instance;
+    bool[] completedLevels = new bool[NUMBER_OF_LEVELS];
 
 
     void Awake() {
@@ -20,12 +22,22 @@ public class GlobalManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
-        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+
+       if (SceneManager.GetActiveScene().buildIndex == 0) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+       }
     }
 
     public static GlobalManager GetInstance() {
         return instance;
+    }
+
+    public void LevelCompleted(int stageIndex) {
+        completedLevels[stageIndex] = true;
+    }
+
+    public void ResetProgression() {
+        completedLevels = new bool[NUMBER_OF_LEVELS];
     }
 }
 

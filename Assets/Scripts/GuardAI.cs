@@ -24,6 +24,7 @@ public class GuardAI : MonoBehaviour
     NavMeshAgent navMeshAgent;
     PlayerControl player;
     Light searchLight;
+    Animator animator;
 
     // 
     Vector3 FOVleft, FOVright, scanLine;
@@ -49,6 +50,7 @@ public class GuardAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         searchLight = GetComponentInChildren<Light>();
+        animator = GetComponentInChildren<Animator>();
 
         // Variablen initialisieren
         awareness = awarenessPatrolling;
@@ -70,6 +72,7 @@ public class GuardAI : MonoBehaviour
         switch (guardState)
         {
             case State.patrolling:
+                animator.SetBool("walking", true);
                 awareness = awarenessPatrolling;
                 searchLight.color = Color.cyan;
                 break;
@@ -106,6 +109,7 @@ public class GuardAI : MonoBehaviour
                 break;
             
             case State.waiting:
+                animator.SetBool("walking", false);
                 if (StateTimer > 0) {
                     StateTimer -= Time.deltaTime;
                 } else {
