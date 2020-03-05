@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerGoal : MonoBehaviour
 {
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,8 @@ public class PlayerGoal : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider collider) {
-        
+        if (collider.gameObject.tag=="Player") {
+            GameManager.GetInstance().SetGameWon();
+        }
     }
 }

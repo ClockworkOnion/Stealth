@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GlobalManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class GlobalManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
     }
 
     public static GlobalManager GetInstance() {

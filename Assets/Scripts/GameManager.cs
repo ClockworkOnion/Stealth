@@ -25,10 +25,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+        /*
         gameLostCanvas = GameObject.Find("LostCanvas").GetComponent<Canvas>();
         gameLostCanvas.enabled = false;
         gameWonCanvas = GameObject.Find("WonCanvas").GetComponent<Canvas>();
         gameWonCanvas.enabled = false;
+        */
         scoreText.text = "Score: 0";
         DebugText = GameObject.Find("DebugText").GetComponent<Text>();
 
@@ -37,16 +39,20 @@ public class GameManager : MonoBehaviour
     }
 
     public void SetGameLost() {
-        Debug.Log("Game Over");
-        gameOver = true;
-        Stopwatch.GetInstance().SetPause(true);
-        gameLostCanvas.enabled = true;
+        if (!gameOver) {
+            Debug.Log("Game Over");
+            gameOver = true;
+            Stopwatch.GetInstance().SetPause(true);
+            gameLostCanvas.enabled = true;
+        }
     }
 
     public void SetGameWon() {
-        gameOver = true;
-        Stopwatch.GetInstance().SetPause(true);
-        gameWonCanvas.enabled = true;
+        if (!gameOver) {
+            gameOver = true;
+            Stopwatch.GetInstance().SetPause(true);
+            gameWonCanvas.enabled = true;
+        }
     }
 
     public void GetPoints(int points) {

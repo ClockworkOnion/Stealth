@@ -7,10 +7,17 @@ public class PlayerControl : MonoBehaviour
 {
     float xAxis, yAxis;
     bool runButton;
-    public float playerSpeed = 2;
+    [Range(1f, 20f)]
+    public float walkSpeed = 2;
+    [Range(1f, 20f)]
+    public float runSpeed = 10;
+    float playerSpeed = 2;
+    [Range(0f,1f)]
+    public float smoothing = 0.1f;
     Rigidbody rigidBody;
     Vector3 lastPosition;
     Vector3 prediction;
+    Vector3 wantedVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -22,12 +29,12 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         if (!GameManager.GetInstance().gameOver) {
-            xAxis = -Input.GetAxis("Horizontal"); // Umgedrehte Achse??
-            yAxis = -Input.GetAxis("Vertical");
+            playerSpeed = (runButton)? runSpeed : walkSpeed; // Rennknopf setzt Geschwindigkeit auf 10 (vorlaeufig)
             runButton = Input.GetKey("x");
+            wantedVelocity.x = Input.GetAxis("Horizontal") * playerSpeed; 
+            wantedVelocity.z = Input.GetAxis("Vertical") * playerSpeed;
         }
 
-        playerSpeed = (runButton)? 10 : 2; // Rennknopf setzt Geschwindigkeit auf 10 (vorlaeufig)
 
         prediction = (transform.position - lastPosition) * 20;
         Debug.DrawRay(transform.position, prediction, Color.cyan);
@@ -39,13 +46,23 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate() {
         if (!GameManager.GetInstance().gameOver) {
-            Vector3 movement = new Vector3(xAxis, 0, yAxis);
-            // rigidBody.AddForce(new Vector3(xAxis * playerSpeed * Time.deltaTime, 0, yAxis * playerSpeed * Time.deltaTime));
-            transform.position = transform.position + movement * playerSpeed * Time.deltaTime;
+            wantedVelocity.y = rigidBody.velocity.y;
+
+            Vector3 wantedMovement = Vector3.Lerp(rigidBody.velocity, wantedVelocity, smoothing);
+            if (wantedMovement.magnitude > playerSpeed) { // Normalisieren, damit diagonale Laufgeschwindigkeit nicht hoeher ist
+                wantedMovement = wantedMovement.normalized * playerSpeed;
+            }
+            rigidBody.velocity = wantedMovement;
         }
+        GameManager.GetInstance().SetDebugText(GetComponent<Rigidbody>().velocity.magnitude.ToString());
     }
 
     public Vector3 GetMovementPrediction() {
         return transform.position + prediction;
+    }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, playerSpeed);
     }
 }
