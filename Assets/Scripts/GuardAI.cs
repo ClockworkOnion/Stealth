@@ -153,6 +153,7 @@ public class GuardAI : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            animator.SetBool("walking", false);
             GameManager.GetInstance().SetGameLost();
         }
     }
