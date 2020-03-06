@@ -119,8 +119,6 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!195 &8330438353076989240
 NavMeshAgent:
   m_ObjectHideFlags: 0

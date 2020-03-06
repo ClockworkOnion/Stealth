@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GlobalManager : MonoBehaviour
@@ -21,6 +22,7 @@ public class GlobalManager : MonoBehaviour
         }
 
         ResetProgression();
+
     }
 
     void Start()
@@ -30,6 +32,7 @@ public class GlobalManager : MonoBehaviour
        if (SceneManager.GetActiveScene().buildIndex == 0) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
        }
+
 
     }
 
@@ -42,12 +45,18 @@ public class GlobalManager : MonoBehaviour
     }
 
     public void ResetProgression() {
-       completedLevels = new bool[NUMBER_OF_LEVELS];
-       for (int i = 0; i < completedLevels.Length; i++)
-       {
-           completedLevels[i] = false;
-       }
-       money = 0;
+        completedLevels = new bool[NUMBER_OF_LEVELS];
+        for (int i = 0; i < completedLevels.Length; i++)
+        {
+            completedLevels[i] = false;
+        }
+        money = 0;
+
+        itemMap = new Dictionary<PlayerItems, int>();
+        itemMap.Add(PlayerItems.cloakingDevice, 0);
+        itemMap.Add(PlayerItems.smokeBomb, 0);
+        itemMap.Add(PlayerItems.glue, 0);
+        itemMap.Add(PlayerItems.stone, 0);
     }
 
     public bool GetLevelCompleted(int stageIndex) {
@@ -70,6 +79,23 @@ public class GlobalManager : MonoBehaviour
     public void SubtractMoney(int amount) {
         money -= amount;
         GameManager.GetInstance().SetMoneyText(money);
+    }
+
+   
+    /////// Shop Methoden    ////////////////////////////////////////
+
+    public void AddItem(PlayerItems items) {
+        itemMap[items] += 1;
+    }
+
+    public bool SubtractItem(PlayerItems items) {
+        int tempAmount;
+        itemMap.TryGetValue(items, out tempAmount);
+        if (tempAmount > 0) {
+            itemMap.Add(items, tempAmount-1);
+            return true;
+        }
+        return false;
     }
 
 }

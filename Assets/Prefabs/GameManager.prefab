@@ -44,5 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOver: 0
+  gamePaused: 0
+  playerIsCloaked: 0
   UICanvas: {fileID: 0}
-  scoreText: {fileID: 0}
+  cloakingDeviceAmount: {fileID: 0}
+  smokeBombAmount: {fileID: 0}
+  glueAmount: {fileID: 0}
+  stoneAmount: {fileID: 0}

@@ -12,7 +12,6 @@ public class Stopwatch : MonoBehaviour
     int hundredthsOfASecond = 0;
     float timer = 0;
     TextMeshProUGUI stopwatchText;
-    bool pause = false;
 
     // Start is called before the first frame update
     void Awake()
