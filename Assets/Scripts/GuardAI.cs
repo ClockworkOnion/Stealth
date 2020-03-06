@@ -33,6 +33,8 @@ public class GuardAI : MonoBehaviour
     float StateTimer = 0;
     float DistanceToPlayer;
     float awareness;
+    float animationSpeedMemory;
+    bool isPaused;
 
     public enum State
     {
@@ -54,6 +56,7 @@ public class GuardAI : MonoBehaviour
 
         // Variablen initialisieren
         awareness = awarenessPatrolling;
+        animationSpeedMemory = animator.speed;
 
         // Patrouille starten
         NextWaypoint();
@@ -62,13 +65,14 @@ public class GuardAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.GetInstance().gameOver)
-        {
-            navMeshAgent.isStopped = true;
+        // Checken ob gameOver oder pausiert, wenn ja hier abbrechen
+        if (IsGameOver() || IsGamePaused()) {
             return;
-
         }
 
+        ///////////////////////////////////////////////////////////////
+
+        // Switch-Block Gegner KI
         switch (guardState)
         {
             case State.patrolling:
@@ -132,7 +136,7 @@ public class GuardAI : MonoBehaviour
         RaycastHit hit;
         bool seen = Physics.Raycast(transform.position, scanLine, out hit, sightRange);
 
-        if (seen && hit.collider.gameObject.tag == "Player" && !GameManager.GetInstance().gameOver)
+        if (seen && hit.collider.gameObject.tag == "Player" && !GameManager.GetInstance().gamePaused)
         {
             Debug.Log("Player seen");
             lastKnownPlayerPosition = player.transform.position;
@@ -186,6 +190,45 @@ public class GuardAI : MonoBehaviour
 
     public void CheckpointReached(float waitDuration) {
         SetNextState(State.waiting, waitDuration);
+    }
+
+    public void TogglePause() {
+        if (!isPaused) {
+            animationSpeedMemory = animator.speed;
+            animator.speed = 0;
+            
+            isPaused = true;
+        } else {
+            animator.speed = animationSpeedMemory;
+            isPaused = false;
+        }
+    }
+
+    private bool IsGameOver() { 
+        if (GameManager.GetInstance().gameOver) {
+            navMeshAgent.isStopped = true;
+            animator.speed = 0;
+            return true;
+        } 
+        return false;
+    }
+
+    private bool IsGamePaused() {
+        if (GameManager.GetInstance().gamePaused) {
+            if (animationSpeedMemory == 0) { // Geschwindigkeit nur einmal zwischenspeichern
+                animationSpeedMemory = animator.speed;
+                animator.speed = 0;
+                navMeshAgent.isStopped = true;
+            } 
+            return true;
+        } else {
+            if (animationSpeedMemory != 0) { // Geschwindigkeit nur einmal setzen und löschen
+                animator.speed = animationSpeedMemory;
+                animationSpeedMemory = 0;
+                navMeshAgent.isStopped = false;
+            }
+        }
+        return false;
     }
 
 }

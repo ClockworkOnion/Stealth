@@ -10,6 +10,8 @@ public class GlobalManager : MonoBehaviour
     static GlobalManager instance;
     bool[] completedLevels;
 
+    Dictionary<PlayerItems, int> itemMap;
+    int money = 0;
 
     void Awake() {
         if (instance != null) {
@@ -45,10 +47,31 @@ public class GlobalManager : MonoBehaviour
        {
            completedLevels[i] = false;
        }
+       money = 0;
     }
 
     public bool GetLevelCompleted(int stageIndex) {
         return completedLevels[stageIndex];
     }
+
+    public Dictionary<PlayerItems, int> GetInventoryAsMap() {
+        return itemMap;
+    }
+
+    public int GetMoney() {
+        return money;
+    }
+
+    public void AddMoney(int amount) {
+        money += amount;
+        GameManager.GetInstance().SetMoneyText(money);
+    }
+
+    public void SubtractMoney(int amount) {
+        money -= amount;
+        GameManager.GetInstance().SetMoneyText(money);
+    }
+
 }
+
 

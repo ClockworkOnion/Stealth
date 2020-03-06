@@ -27,8 +27,9 @@ public class Stopwatch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!pause)
-        {
+        if (GameManager.GetInstance().gamePaused || GameManager.GetInstance().gameOver) {
+            return;
+        } else {
             stopwatchText.SetText(minutes + ":" + seconds.ToString("00") + ":" + hundredthsOfASecond.ToString("00"));
             timer += Time.deltaTime;
             hundredthsOfASecond = (int)(timer * 100);
@@ -59,7 +60,5 @@ public class Stopwatch : MonoBehaviour
         return instance;
     }
 
-    public void SetPause(bool pause) {
-        this.pause = pause;
-    }
+
 }

@@ -8,12 +8,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     static GameManager gameManager;
-    int Score = 0;
     public bool gameOver = false;
+    public bool gamePaused = false;
 
     public Canvas UICanvas;
-    Canvas gameLostCanvas, gameWonCanvas;
-    public Text scoreText;
+    Canvas gameLostCanvas, gameWonCanvas, gamePausedCanvas;
+    Text moneyText;
     Text DebugText;
     PlayerControl player;
     // Start is called before the first frame update
@@ -34,16 +34,28 @@ public class GameManager : MonoBehaviour
         gameLostCanvas.enabled = false;
         gameWonCanvas = GameObject.Find("WonCanvas").GetComponent<Canvas>();
         gameWonCanvas.enabled = false;
+        gamePausedCanvas = GameObject.Find("PauseMenuCanvas").GetComponent<Canvas>();
+        gamePausedCanvas.enabled = false;
+
         
-        scoreText.text = "Score: 0";
+        moneyText = GameObject.Find("MoneyText").GetComponent<Text>();
+        moneyText.text = "Money: " + GlobalManager.GetInstance().GetMoney();
+
         DebugText = GameObject.Find("DebugText").GetComponent<Text>();
+    }
+
+    void Update() {
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameOver) {
+            TogglePause();
+        }
+
     }
 
     public void SetGameLost() {
         if (!gameOver) {
             Debug.Log("Game Over");
             gameOver = true;
-            Stopwatch.GetInstance().SetPause(true);
             gameLostCanvas.enabled = true;
         }
     }
@@ -51,15 +63,9 @@ public class GameManager : MonoBehaviour
     public void SetGameWon() {
         if (!gameOver) {
             gameOver = true;
-            Stopwatch.GetInstance().SetPause(true);
             gameWonCanvas.enabled = true;
             GlobalManager.GetInstance().LevelCompleted(SceneManager.GetActiveScene().buildIndex-2);
         }
-    }
-
-    public void GetPoints(int points) {
-        Score += points;
-        scoreText.text = "Score: " + Score.ToString();
     }
 
     public void SetDebugText(string debugText) {
@@ -80,5 +86,14 @@ public class GameManager : MonoBehaviour
 
     public void BackToMainMenu() {
         SceneManager.LoadScene(1);
+    }
+
+    public void SetMoneyText(int amount) {
+        moneyText.text = "Money: " + amount;
+    }
+
+    public void TogglePause() {
+        gamePaused = !gamePaused;
+        gamePausedCanvas.enabled = gamePaused;
     }
 }

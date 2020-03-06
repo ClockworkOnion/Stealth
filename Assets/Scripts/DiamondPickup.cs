@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class DiamondPickup : MonoBehaviour
 {
+    public int value = 100;
     GameManager gameManager;
     // Start is called before the first frame update
     void Start()
-    {
-        gameManager = GameManager.GetInstance();
+    {   
+
     }
 
-       void OnTriggerEnter (Collider collider) {
+    void OnTriggerEnter (Collider collider) {
         if (collider.gameObject.tag=="Player") {
-            gameManager.GetPoints(10);
+            GlobalManager.GetInstance().AddMoney(value);
             GameObject.Destroy(this.gameObject);
-        }
+            GameManager.GetInstance().SetMoneyText(GlobalManager.GetInstance().GetMoney());
     }
+}
 }

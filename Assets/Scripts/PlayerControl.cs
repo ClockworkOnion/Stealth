@@ -28,7 +28,7 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.GetInstance().gameOver) {
+        if (!GameManager.GetInstance().gamePaused) {
             playerSpeed = (runButton)? runSpeed : walkSpeed; // Rennknopf setzt Geschwindigkeit auf 10 (vorlaeufig)
             runButton = Input.GetKey("x");
             wantedVelocity.x = Input.GetAxis("Horizontal") * playerSpeed; 
@@ -45,7 +45,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if (!GameManager.GetInstance().gameOver) {
+        if (!GameManager.GetInstance().gamePaused || !GameManager.GetInstance().gameOver) {
             wantedVelocity.y = rigidBody.velocity.y;
 
             Vector3 wantedMovement = Vector3.Lerp(rigidBody.velocity, wantedVelocity, smoothing);
