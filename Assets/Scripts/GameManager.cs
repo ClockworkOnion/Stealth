@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     Text moneyText;
     Text DebugText;
     PlayerControl player;
+    GuardAI[] guardsList;
 
     [Header("Item Amount Texts")]
     public TextMeshProUGUI cloakingDeviceAmount;
@@ -54,10 +55,12 @@ public class GameManager : MonoBehaviour
         gamePausedCanvas.enabled = false;
         shopCanvas = GameObject.Find("ShopCanvas").GetComponent<Canvas>();
         shopCanvas.enabled = false;
+
+        guardsList = GameObject.FindObjectsOfType<GuardAI>();
         
         // Items / Shop / Geld
         moneyText = GameObject.Find("MoneyText").GetComponent<Text>();
-        moneyText.text = "Money: " + GlobalManager.GetInstance().GetMoney();
+        moneyText.text = "Credits: " + GlobalManager.GetInstance().GetMoney();
         RefreshItemCount();
 
         // Debug
@@ -79,6 +82,7 @@ public class GameManager : MonoBehaviour
     public void SetGameLost() {
         if (!gameOver) {
             Debug.Log("Game Over");
+            gameLostCanvas.GetComponentInChildren<Animator>().SetTrigger("ShowText");
             gameOver = true;
             gameLostCanvas.enabled = true;
         }
@@ -88,6 +92,7 @@ public class GameManager : MonoBehaviour
         if (!gameOver) {
             gameOver = true;
             gameWonCanvas.enabled = true;
+            gameWonCanvas.GetComponentInChildren<Animator>().SetTrigger("displayText");
             GlobalManager.GetInstance().LevelCompleted(SceneManager.GetActiveScene().buildIndex-2);
         }
     }
@@ -113,7 +118,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void SetMoneyText(int amount) {
-        moneyText.text = "Money: " + amount;
+        moneyText.text = "Credits: " + amount;
     }
 
     public void TogglePause() {
@@ -169,6 +174,14 @@ public class GameManager : MonoBehaviour
        BuySmokeBomb.interactable = (credits >= 80) ? true : false;
        BuyGlue.interactable = (credits >= 50) ? true : false;
        BuyStone.interactable = (credits >= 10) ? true : false;
+    }
+
+    public GuardAI[] GetGuardAIs() {
+        return guardsList;
+    }
+
+    public void SetPlayerCloak(bool cloaked) {
+        playerIsCloaked = cloaked;
     }
 
 }

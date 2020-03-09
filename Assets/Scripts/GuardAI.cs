@@ -14,6 +14,9 @@ public class GuardAI : MonoBehaviour
     public float pursueDuration = 2f; // Wie lange die Position des Spielers bekannt bleibt
     public float awarenessPatrolling = 0.02f;
     public float awarenessPursuing = 0.1f;
+    public float standardWalkspeed = 2f;
+    public float gluedWalkspeed = 0.5f;
+    public float gluedTimer = 0;
     public Transform nextRouteCheckpoint;
     public State guardState = State.patrolling;
     public List<RouteCheckpoint> waypoints;
@@ -27,7 +30,7 @@ public class GuardAI : MonoBehaviour
     Animator animator;
 
     // 
-    Vector3 FOVleft, FOVright, scanLine;
+    Vector3 FOVleft, FOVright, scanLine1, scanLine2;
     Vector3 lastKnownPlayerPosition;
     float FOVinterpolation = 0f;
     float StateTimer = 0;
@@ -42,7 +45,8 @@ public class GuardAI : MonoBehaviour
         pursuing,
         returning,
         searching,
-        waiting
+        waiting,
+        confused
     }
 
     // Start is called before the first frame update
@@ -65,6 +69,13 @@ public class GuardAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Animationsstopp wenn keine Bewegung durch NavmeshAgent durchgeführt wird
+        if (Vector3.Distance(navMeshAgent.destination, transform.position) < navMeshAgent.stoppingDistance + 0.1f) {
+            animator.SetBool("walking", false);
+        } else {
+            animator.SetBool("walking", true);
+        }
+
         // Checken ob gameOver oder pausiert, wenn ja hier abbrechen
         if (IsGameOver() || IsGamePaused()) {
             return;
@@ -82,13 +93,18 @@ public class GuardAI : MonoBehaviour
                 break;
 
             case State.searching:
+                searchLight.color = Color.yellow;
+                navMeshAgent.stoppingDistance = 1;
                 if (StateTimer > 0)
                 {
                     StateTimer -= Time.deltaTime;
                 }
                 else
                 {
+                    Debug.Log("Searching done. Patrolling...");
                     SetNextState(State.patrolling);
+                    navMeshAgent.stoppingDistance = 0;
+                    NextWaypoint();
                     navMeshAgent.destination = nextRouteCheckpoint.position;
                 }
                 break;
@@ -96,6 +112,12 @@ public class GuardAI : MonoBehaviour
             case State.pursuing:
                 awareness = awarenessPursuing;
                 searchLight.color = Color.red;
+                navMeshAgent.stoppingDistance = 0;
+
+                if (GameManager.GetInstance().playerIsCloaked) { // Damit Spieler nicht unsichtbar weitere 2 Sekunden verfolgt wird
+                    SetNextState(State.searching, searchDuration); // bzw. damit sofort verfolgung abgebrochen wird
+                    break;
+                }
 
                 // Spielerposition verfolgen und vergessen
                 if (StateTimer > 0)
@@ -121,35 +143,65 @@ public class GuardAI : MonoBehaviour
                     NextWaypoint();
                 }
                 break;
+
+            case State.confused:
+                if (StateTimer > 0) {
+                    StateTimer -= Time.deltaTime;
+                    navMeshAgent.destination = transform.position;
+                    animator.SetBool("walking", false);
+                    return;
+                } else {
+                    Debug.Log("Confusion done. Searching...");
+                    SetNextState(State.searching, 3);
+                }
+                break;
             
 
             default:
                 break;
         }
 
-        // Sichtfeld berechnen
-        FOVinterpolation = (FOVinterpolation += awareness) > 1f ? 0 : FOVinterpolation += awareness;
-        FOVleft = transform.forward - transform.right * FOVfactor;
-        FOVright = transform.forward + transform.right * FOVfactor;
-        scanLine = Vector3.Slerp(FOVleft, FOVright, FOVinterpolation) * sightRange;
+        ///// Walkspeed effekte /////
 
-        RaycastHit hit;
-        bool seen = Physics.Raycast(transform.position, scanLine, out hit, sightRange);
-
-        if (seen && hit.collider.gameObject.tag == "Player" && !GameManager.GetInstance().gamePaused)
-        {
-            Debug.Log("Player seen");
-            lastKnownPlayerPosition = player.transform.position;
-            SetNextState(State.pursuing, pursueDuration);
-            navMeshAgent.destination = lastKnownPlayerPosition;
-            // playerSeen.Invoke(); // Event, falls man noch andere Sachen einbauen will
+        // Glue effekt
+        if (gluedTimer > 0) {
+            gluedTimer -= Time.deltaTime;
+            navMeshAgent.speed = gluedWalkspeed;
+        } else {
+            navMeshAgent.speed = standardWalkspeed;
         }
 
-        // Debug Rays
-        Debug.DrawRay(transform.position, transform.forward * sightRange);
-        Debug.DrawRay(transform.position, FOVleft, Color.cyan);
-        Debug.DrawRay(transform.position, FOVright, Color.cyan);
-        Debug.DrawRay(transform.position, scanLine, Color.red);
+
+        if (!GameManager.GetInstance().playerIsCloaked) {
+            ///// Sichtfeld berechnen //////
+            FOVinterpolation = (FOVinterpolation += awareness) > 1f ? 0 : FOVinterpolation += awareness;
+            FOVleft = transform.forward - transform.right * FOVfactor;
+            FOVright = transform.forward + transform.right * FOVfactor;
+            scanLine1 = Vector3.Slerp(FOVleft, FOVright, FOVinterpolation) * sightRange;
+            scanLine2 = Vector3.Slerp(FOVleft, FOVright, (FOVinterpolation+0.5f)%1) * sightRange;
+
+            RaycastHit hit;
+            bool seen = Physics.Raycast(transform.position, scanLine1, out hit, sightRange);
+            if (!seen || hit.collider.tag != "Player") {
+                seen = Physics.Raycast(transform.position, scanLine2, out hit, sightRange);
+            }
+
+            if (seen && hit.collider.gameObject.tag == "Player" && !GameManager.GetInstance().gamePaused)
+            {
+                Debug.Log("Player seen");
+                lastKnownPlayerPosition = player.transform.position;
+                SetNextState(State.pursuing, pursueDuration);
+                navMeshAgent.destination = lastKnownPlayerPosition;
+                // playerSeen.Invoke(); // Event, falls man noch andere Sachen einbauen will
+            }
+
+            // Debug Rays
+            Debug.DrawRay(transform.position, transform.forward * sightRange);
+            Debug.DrawRay(transform.position, FOVleft, Color.cyan);
+            Debug.DrawRay(transform.position, FOVright, Color.cyan);
+            Debug.DrawRay(transform.position, scanLine1, Color.red);
+            Debug.DrawRay(transform.position, scanLine2, Color.red);
+        }
     }
 
 
@@ -168,12 +220,12 @@ public class GuardAI : MonoBehaviour
         navMeshAgent.destination = newDestination.position;
     }
 
-    void SetNextState(State nextState)
+    public void SetNextState(State nextState)
     {
         SetNextState(nextState, 0f);
     }
 
-    void SetNextState(State nextState, float timer)
+    public void SetNextState(State nextState, float timer)
     {
         guardState = nextState;
         StateTimer = timer;
@@ -204,7 +256,7 @@ public class GuardAI : MonoBehaviour
         }
     }
 
-    private bool IsGameOver() { 
+    private bool IsGameOver() { // Stoppt den Wächter wenn Spielstatus GameOver
         if (GameManager.GetInstance().gameOver) {
             navMeshAgent.isStopped = true;
             animator.speed = 0;
@@ -213,7 +265,7 @@ public class GuardAI : MonoBehaviour
         return false;
     }
 
-    private bool IsGamePaused() {
+    private bool IsGamePaused() { // Stoppt den Wächter bei Spielstatus Pause
         if (GameManager.GetInstance().gamePaused) {
             if (animationSpeedMemory == 0) { // Geschwindigkeit nur einmal zwischenspeichern
                 animationSpeedMemory = animator.speed;
@@ -230,5 +282,16 @@ public class GuardAI : MonoBehaviour
         }
         return false;
     }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+    public void SetGlueTimer(float duration) {
+        gluedTimer = duration;
+    }
+
+  
 
 }

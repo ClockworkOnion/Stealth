@@ -74,6 +74,7 @@ public class GlobalManager : MonoBehaviour
     public void AddMoney(int amount) {
         money += amount;
         GameManager.GetInstance().SetMoneyText(money);
+        
     }
 
     public void SubtractMoney(int amount) {
@@ -88,14 +89,12 @@ public class GlobalManager : MonoBehaviour
         itemMap[items] += 1;
     }
 
-    public bool SubtractItem(PlayerItems items) {
-        int tempAmount;
-        itemMap.TryGetValue(items, out tempAmount);
-        if (tempAmount > 0) {
-            itemMap.Add(items, tempAmount-1);
-            return true;
+    public void SubtractItem(PlayerItems items) {
+        if (itemMap[items] > 0) {
+            itemMap[items] -= 1;
+        } else {
+            Debug.Log("Fehler beim Item abziehen");
         }
-        return false;
     }
 
 }
