@@ -106,6 +106,8 @@ ModelImporter:
     4300012: Face
     7400000: Armature|PlayerTPose
     7400002: Armature|RunV2
+    7400004: Armature|PlayerIdle
+    7400006: Armature|PlayerWalk
     9500000: //RootNode
     13700000: Cube
     13700002: Body
@@ -144,10 +146,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|PlayerTPose
-      takeName: Armature|PlayerTPose
+      name: Armature|PlayerIdle
+      takeName: Armature|PlayerIdle
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 58
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -174,6 +176,34 @@ ModelImporter:
     - serializedVersion: 16
       name: Armature|RunV2
       takeName: Armature|RunV2
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|PlayerWalk
+      takeName: Armature|PlayerWalk
       firstFrame: 0
       lastFrame: 24
       wrapMode: 0

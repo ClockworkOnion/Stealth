@@ -15,7 +15,9 @@ ModelImporter:
     2100000: ChairMat
     2100002: PlantStem.001
     2300000: Chair
+    2300002: //RootNode
     3300000: Chair
+    3300002: //RootNode
     4300000: Chair
     10800000: Light
   externalObjects: {}

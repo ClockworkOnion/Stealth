@@ -28,7 +28,7 @@ public class PlayerControl : MonoBehaviour
 
     float cloakDuration;
 
-
+    Animator playerAnimator;
     Rigidbody rigidBody;
     Vector3 lastPosition;
     Vector3 prediction;
@@ -38,6 +38,7 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        playerAnimator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -63,9 +64,11 @@ public class PlayerControl : MonoBehaviour
 
             //// Input ////
             // Buttons
-            runButton = Input.GetKey("x");
 
+            // Running
+            runButton = Input.GetKey("x");
             playerSpeed = defaultWalkSpeed * (runButton ? runSpeedFactor : 1) * (isGlued ? glueSpeedFactor : 1);
+            playerAnimator.SetBool("isRunning", runButton);
 
             if (Input.GetButtonDown("SmokeBombButton")) {
                 UseSmokeBomb();

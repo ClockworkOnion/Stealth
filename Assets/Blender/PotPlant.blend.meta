@@ -17,7 +17,9 @@ ModelImporter:
     2100004: Earth
     2100006: Leaves
     2300000: Plant
+    2300002: //RootNode
     3300000: Plant
+    3300002: //RootNode
     4300000: Plant
     10800000: Light
   externalObjects: {}

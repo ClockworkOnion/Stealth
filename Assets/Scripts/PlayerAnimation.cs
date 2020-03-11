@@ -6,14 +6,19 @@ public class PlayerAnimation : MonoBehaviour
 {
     Rigidbody rigidBody;
     Vector2 movementDir;
+    Animator playerAnimator;
     // Start is called before the first frame update
 
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        playerAnimator = GetComponentInChildren<Animator>();
     }
 
-    // Update is called once per frame
+    void Update() {
+
+    }
+
     void FixedUpdate()
     {
         // Spieler in die Richtung rotieren, in die er laeuft
@@ -24,6 +29,11 @@ public class PlayerAnimation : MonoBehaviour
 
             Quaternion q = Quaternion.Euler(0, angle, 0);
             transform.rotation = Quaternion.Lerp(transform.rotation, q, 0.2f);
+
+            // Zusätzlich Animator steuern
+            playerAnimator.SetBool("isMoving", true);
+        } else {
+            playerAnimator.SetBool("isMoving", false);
         }
 
     }

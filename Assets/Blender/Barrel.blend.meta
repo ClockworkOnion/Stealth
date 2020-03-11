@@ -15,7 +15,9 @@ ModelImporter:
     2100000: BarrelMat
     2100002: BarrelRings
     2300000: Barrel
+    2300002: //RootNode
     3300000: Barrel
+    3300002: //RootNode
     4300000: Barrel
     10800000: Light
   externalObjects: {}
