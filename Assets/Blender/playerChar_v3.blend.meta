@@ -40,6 +40,12 @@ ModelImporter:
     100068: UpperArm_R
     100070: UpperLeg_L
     100072: UpperLeg_R
+    100074: Body
+    100076: Body.001
+    100078: HAir
+    100080: Pants
+    100082: Face
+    100084: Jacket
     400000: Armature
     400002: Chest
     400004: Cube
@@ -77,12 +83,37 @@ ModelImporter:
     400068: UpperArm_R
     400070: UpperLeg_L
     400072: UpperLeg_R
+    400074: Body
+    400076: Body.001
+    400078: HAir
+    400080: Pants
+    400082: Face
+    400084: Jacket
     2100000: Material
+    2100002: ShirtMat
+    2100004: SkinMaterial
+    2100006: ShoesMat
+    2100008: HairMat
+    2100010: PantsMat
+    2100012: JacketMat
+    2100014: EyesMAt
     4300000: Cube
+    4300002: Body
+    4300004: HAir
+    4300006: Pants
+    4300008: Body.001
+    4300010: Jacket
+    4300012: Face
     7400000: Armature|PlayerTPose
     7400002: Armature|RunV2
     9500000: //RootNode
     13700000: Cube
+    13700002: Body
+    13700004: Body.001
+    13700006: HAir
+    13700008: Pants
+    13700010: Face
+    13700012: Jacket
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
@@ -99,13 +130,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Armature|RunV2' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'Hips' has translation animation that will
-      be discarded.\n\t'Shoulder_L' has translation animation that will be discarded.\n\t'Shoulder_R'
-      has translation animation that will be discarded.\n\t'UpperLeg_L' has translation
-      animation that will be discarded.\n\t'UpperLeg_R' has translation animation
-      that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
