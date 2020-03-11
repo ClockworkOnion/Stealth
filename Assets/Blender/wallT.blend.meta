@@ -15,7 +15,9 @@ ModelImporter:
     2100000: WallMaterial
     2100002: TopMaterial
     2300000: WallCorner
+    2300002: //RootNode
     3300000: WallCorner
+    3300002: //RootNode
     4300000: WallCorner
     10800000: Light
   externalObjects: {}
