@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
     Button stage2Button;
     Button stage3Button;
     Button selectStageButton;
+    Button settingsButton;
     Button soundButton;
     Canvas selectCanvas; 
     Canvas settingsCanvas; 
@@ -34,6 +35,7 @@ public class MenuManager : MonoBehaviour
         stage2Button = GameObject.Find("Stage2Button").GetComponent<Button>();
         stage3Button = GameObject.Find("Stage3Button").GetComponent<Button>();
         selectStageButton = GameObject.Find("SelectStageButton").GetComponent<Button>();
+        settingsButton = GameObject.Find("SettingsButton").GetComponent<Button>();
         soundButton = GameObject.Find("SoundButton").GetComponent<Button>();
         graphicsButtonText = GameObject.Find("GraphicsButton").GetComponentInChildren<TextMeshProUGUI>();
 
@@ -56,18 +58,17 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Input.GetKeyDown("w");
-        Input.GetKeyDown("s");
-        if (activeMenuItem < 0) {
-            activeMenuItem = menuItems.Length-1;
-        }
-        activeMenuItem = activeMenuItem % menuItems.Length;
-
-        if (selectCanvas.enabled && Input.GetButtonDown("Cancel")) {
+        if (selectCanvas.enabled && (Input.GetButtonDown("Cancel") || Input.GetAxis("Horizontal") < -0.5f))  {
             SelectStage();
             selectStageButton.Select();
 
         }        
+
+        if (settingsCanvas.enabled && (Input.GetButtonDown("Cancel") || Input.GetAxis("Horizontal") < -0.5f))  {
+            Settings();
+            settingsButton.Select();
+        }        
+
     }
 
     public void QuitGame() {
@@ -99,7 +100,6 @@ public class MenuManager : MonoBehaviour
         selectCanvas.enabled = false;
         settingsCanvas.enabled = !settingsCanvas.enabled;
         soundButton.Select();
-
     }
 
     public void ToggleGraphics() {

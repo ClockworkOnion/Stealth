@@ -12,7 +12,8 @@ public class GlobalManager : MonoBehaviour
     bool[] completedLevels;
 
     Dictionary<PlayerItems, int> itemMap;
-    int money = 0;
+    const int START_MONEY = 500;
+    int money;
 
     void Awake() {
         if (instance != null) {
@@ -50,7 +51,7 @@ public class GlobalManager : MonoBehaviour
         {
             completedLevels[i] = false;
         }
-        money = 0;
+        money = START_MONEY;
 
         itemMap = new Dictionary<PlayerItems, int>();
         itemMap.Add(PlayerItems.cloakingDevice, 0);

@@ -5,11 +5,12 @@ using UnityEngine;
 public class StoneEffect : MonoBehaviour
 {
     bool effectUsed;  // wird true, wenn der Stein irgendwo gegen geprallt ist
-
+    bool pickedUp;
+    Rigidbody rb;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -19,8 +20,10 @@ public class StoneEffect : MonoBehaviour
     }
 
     void OnCollisionEnter (Collision collision) {
-        if (collision.gameObject.tag=="Player"){
+        if (collision.gameObject.tag=="Player" && !pickedUp){
             GlobalManager.GetInstance().AddItem(PlayerItems.stone);
+            GameManager.GetInstance().RefreshItemCount();
+            pickedUp = true;
             Destroy(this.gameObject);
         } else if (!effectUsed) {
             GuardAI[] guardsList = GameManager.GetInstance().GetGuardAIs();
@@ -34,7 +37,9 @@ public class StoneEffect : MonoBehaviour
             }
             effectUsed = true;
         }
+    }
 
-
+      public void GiveForce(Vector3 direction, float power) {
+        rb.AddForce(direction * power);
     }
 }

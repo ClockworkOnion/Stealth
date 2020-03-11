@@ -4,17 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Stopwatch : MonoBehaviour
+public class Stopwatch_countUpwards : MonoBehaviour
 {
-    static Stopwatch instance;
+    static Stopwatch_countUpwards instance;
     int minutes = 0;
     int seconds = 0;
     int hundredthsOfASecond = 0;
-    
-
-    string hundrethsString;
-    string secondsString;
-    float timer = 90;
+    float timer = 0;
     TextMeshProUGUI stopwatchText;
 
     // Start is called before the first frame update
@@ -33,12 +29,20 @@ public class Stopwatch : MonoBehaviour
         if (GameManager.GetInstance().gamePaused || GameManager.GetInstance().gameOver) {
             return;
         } else {
-            timer -= Time.deltaTime;
-            hundrethsString = (timer*100).ToString("00").Substring(0,2);
-
-            minutes = (int)timer / 60;
-            seconds = (int) timer % 60;
-            stopwatchText.SetText(minutes + ":" + seconds.ToString("00") + ":" + hundrethsString);
+            stopwatchText.SetText(minutes + ":" + seconds.ToString("00") + ":" + hundredthsOfASecond.ToString("00"));
+            timer += Time.deltaTime;
+            hundredthsOfASecond = (int)(timer * 100);
+            while (hundredthsOfASecond >= 100)
+            {
+                hundredthsOfASecond -= 100;
+                timer -= 1;
+                seconds++;
+            }
+            while (seconds >= 60)
+            {
+                minutes++;
+                seconds -= 60;
+            }
         }
     }
 
@@ -50,7 +54,7 @@ public class Stopwatch : MonoBehaviour
         minutes = 0;
     }
 
-    public static Stopwatch GetInstance()
+    public static Stopwatch_countUpwards GetInstance()
     {
         return instance;
     }

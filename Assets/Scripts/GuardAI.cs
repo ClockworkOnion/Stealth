@@ -49,11 +49,7 @@ public class GuardAI : MonoBehaviour
         confused
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Komponenten initialisieren
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+    void Awake() {
         navMeshAgent = GetComponent<NavMeshAgent>();
         searchLight = GetComponentInChildren<Light>();
         animator = GetComponentInChildren<Animator>();
@@ -61,9 +57,18 @@ public class GuardAI : MonoBehaviour
         // Variablen initialisieren
         awareness = awarenessPatrolling;
         animationSpeedMemory = animator.speed;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Komponenten initialisieren
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
+
 
         // Patrouille starten
         NextWaypoint();
+        Update();
     }
 
     // Update is called once per frame

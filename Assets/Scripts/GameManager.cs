@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-
+[DefaultExecutionOrder(10)]
 public class GameManager : MonoBehaviour
 {
     static GameManager gameManager;
@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public Button BuySmokeBomb;
     public Button BuyGlue;
     public Button BuyStone;
+
+    bool timeScalePause;
 
 
     void Awake() {
@@ -65,6 +67,10 @@ public class GameManager : MonoBehaviour
 
         // Debug
         DebugText = GameObject.Find("DebugText").GetComponent<Text>();
+
+        // Shop am Levelanfang öffnen
+        ToggleShopMenu();
+        // Invoke("ToggleShopMenu",0.01f);
     }
 
     void Update() {
@@ -74,8 +80,11 @@ public class GameManager : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.S) && !gameOver && !gamePausedCanvas.enabled) {
-            ToggleShopMenu();
+            ToggleShopMenu(); // TODO : Am Ende rausnehmen, dass der Spieler den Shop öffnen kann
         }
+
+
+        if (gamePaused) {Time.timeScale = 0;} else { Time.timeScale = 1;}
 
     }
 
@@ -165,6 +174,7 @@ public class GameManager : MonoBehaviour
 
         if (shopCanvas.enabled) {
             CheckCreditsForItems();
+            BuyStone.Select();
         }
    }
 
@@ -183,6 +193,16 @@ public class GameManager : MonoBehaviour
     public void SetPlayerCloak(bool cloaked) {
         playerIsCloaked = cloaked;
     }
+
+    public void ToggleTimescalePause() {
+        if (Time.timeScale >= 0.9f) {
+            Time.timeScale = 0;
+        } else {
+            Time.timeScale = 1;
+        }
+    }
+
+
 
 }
 

@@ -18,10 +18,11 @@ public class PlayerControl : MonoBehaviour
     [Header("Item Prefabs")]
     public GameObject SmokeBombPrefab;
     public GameObject GluePrefab;
-    public float glueLifeDuration = 10f;
+    public GameObject StonePrefab;
 
     // Glue variablen
     float glueDuration;
+    public float glueLifeDuration = 10f;
     public float glueSpeedFactor = 0.5f;
     bool isGlued = false;
 
@@ -140,14 +141,19 @@ public class PlayerControl : MonoBehaviour
 
     void UseGlue() {
         if (GlobalManager.GetInstance().GetInventoryAsMap()[PlayerItems.glue] > 0) {
-            Destroy(Instantiate(GluePrefab, new Vector3(transform.position.x, 0.62359f, transform.position.z), Quaternion.identity), glueLifeDuration);
+            Destroy(Instantiate(GluePrefab, new Vector3(transform.position.x, 0.62359f, transform.position.z), Quaternion.Euler(90,0,Random.Range(0f, 360f))), glueLifeDuration);
             GlobalManager.GetInstance().SubtractItem(PlayerItems.glue);
             GameManager.GetInstance().RefreshItemCount();
         }
     }
 
     void UseStone () {
-
+        if (GlobalManager.GetInstance().GetInventoryAsMap()[PlayerItems.stone] > 0) {
+            GameObject stone = Instantiate(StonePrefab, transform.position+transform.up + (transform.forward*0.5f+transform.up*0.3f), Quaternion.identity);
+            stone.GetComponent<StoneEffect>().GiveForce(transform.forward, 500);
+            GlobalManager.GetInstance().SubtractItem(PlayerItems.stone);
+            GameManager.GetInstance().RefreshItemCount();
+        }
     }
 
     void UseCloakingDevice() {

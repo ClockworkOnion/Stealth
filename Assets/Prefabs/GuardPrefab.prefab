@@ -114,6 +114,9 @@ MonoBehaviour:
   pursueDuration: 2
   awarenessPatrolling: 0.02
   awarenessPursuing: 0.1
+  standardWalkspeed: 2
+  gluedWalkspeed: 0.5
+  gluedTimer: 0
   nextRouteCheckpoint: {fileID: 0}
   guardState: 0
   waypoints:
