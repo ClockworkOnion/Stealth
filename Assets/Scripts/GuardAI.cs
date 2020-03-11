@@ -82,6 +82,7 @@ public class GuardAI : MonoBehaviour
         }
 
         // Checken ob gameOver oder pausiert, wenn ja hier abbrechen
+        // Die Methoden stoppen automatisch die Animation des Wächters
         if (IsGameOver() || IsGamePaused()) {
             return;
         }

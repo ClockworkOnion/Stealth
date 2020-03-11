@@ -43,7 +43,7 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.GetInstance().gamePaused && !GameManager.GetInstance().gameOver) {
+        if (!GameManager.GetInstance().gamePaused && !GameManager.GetInstance().gameOver) { // Spiel ist nicht pausiert
             //// Glue Timer ////
             if (glueDuration > 0) {
                 glueDuration -= Time.deltaTime;
@@ -85,7 +85,7 @@ public class PlayerControl : MonoBehaviour
             // Achsen
             wantedVelocity.x = Input.GetAxis("Horizontal") * playerSpeed; 
             wantedVelocity.z = Input.GetAxis("Vertical") * playerSpeed;
-        } else {
+        } else { // Spiel ist vorüber oder pausiert
             wantedVelocity.x = 0;
             wantedVelocity.z = 0;
         }

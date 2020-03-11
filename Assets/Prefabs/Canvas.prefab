@@ -1812,6 +1812,7 @@ GameObject:
   - component: {fileID: 1157402429346586549}
   - component: {fileID: 1157402429346586555}
   - component: {fileID: 1157402429346586548}
+  - component: {fileID: 171317111}
   m_Layer: 5
   m_Name: MoneyText
   m_TagString: Untagged
@@ -1828,15 +1829,15 @@ RectTransform:
   m_GameObject: {fileID: 1157402429346586550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1501, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1157402429825338835}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -236, y: 102}
-  m_SizeDelta: {x: 183.70001, y: 141.8}
+  m_AnchoredPosition: {x: -274.3, y: 182.2}
+  m_SizeDelta: {x: 183.7, y: 42.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1157402429346586555
 CanvasRenderer:
@@ -1865,7 +1866,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 144484f7f6b939d49ae7187221839c20, type: 3}
     m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
@@ -1878,6 +1879,25 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: (Money)
+--- !u!95 &171317111
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157402429346586550}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 624c3f46837d4ee44bed66d4a7958c9f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1157402429825338671
 GameObject:
   m_ObjectHideFlags: 0
@@ -2122,10 +2142,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: (stopwatch)
+  m_text: 00:00:00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 315276dbeb181ef44ad71736f2eeda6e, type: 2}
+  m_sharedMaterial: {fileID: 21711667106382166, guid: 315276dbeb181ef44ad71736f2eeda6e,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2191,10 +2212,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1157402430418431571}
-    characterCount: 11
+    characterCount: 8
     spriteCount: 0
     spaceCount: 0
-    wordCount: 1
+    wordCount: 3
     linkCount: 0
     lineCount: 1
     pageCount: 1

@@ -11,10 +11,8 @@ public class Stopwatch : MonoBehaviour
     int seconds = 0;
     int hundredthsOfASecond = 0;
     
-
-    string hundrethsString;
-    string secondsString;
-    float timer = 90;
+    float tmpTimer;
+    float timer = 10;
     TextMeshProUGUI stopwatchText;
 
     // Start is called before the first frame update
@@ -33,12 +31,22 @@ public class Stopwatch : MonoBehaviour
         if (GameManager.GetInstance().gamePaused || GameManager.GetInstance().gameOver) {
             return;
         } else {
-            timer -= Time.deltaTime;
-            hundrethsString = (timer*100).ToString("00").Substring(0,2);
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+                tmpTimer = timer;
 
-            minutes = (int)timer / 60;
-            seconds = (int) timer % 60;
-            stopwatchText.SetText(minutes + ":" + seconds.ToString("00") + ":" + hundrethsString);
+                minutes = (int) tmpTimer / 60;
+                tmpTimer %= 60f;
+
+                seconds = (int) tmpTimer;
+
+                hundredthsOfASecond = ((int)(tmpTimer * 100f)) % 100;
+
+                stopwatchText.SetText(minutes + ":" + seconds.ToString("00") + ":" + hundredthsOfASecond.ToString("00"));
+            } else {
+                GameManager.GetInstance().SetGameLost();
+            }
         }
     }
 
