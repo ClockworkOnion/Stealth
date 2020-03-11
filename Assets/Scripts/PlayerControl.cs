@@ -109,7 +109,7 @@ public class PlayerControl : MonoBehaviour
             Vector3 wantedMovement = Vector3.Lerp(rigidBody.velocity, wantedVelocity, smoothing);
             rigidBody.velocity = wantedMovement;
         }
-        GameManager.GetInstance().SetDebugText(GetComponent<Rigidbody>().velocity.magnitude.ToString());
+        //GameManager.GetInstance().SetDebugText(GetComponent<Rigidbody>().velocity.magnitude.ToString());
     }
 
     public Vector3 GetMovementPrediction() {
