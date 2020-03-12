@@ -112,7 +112,7 @@ public class PlayerControl : MonoBehaviour
             // Buttons
 
             // Running
-            runButton = Input.GetKey("x");
+            runButton = Input.GetButton("Run");
             playerSpeed = defaultWalkSpeed * (runButton ? runSpeedFactor : 1) * (isGlued ? glueSpeedFactor : 1);
             playerAnimator.SetBool("isRunning", runButton);
 

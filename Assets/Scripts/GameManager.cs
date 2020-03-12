@@ -98,6 +98,11 @@ public class GameManager : MonoBehaviour
             GameManager.GetInstance().SetMoneyText(GlobalManager.GetInstance().GetMoney());
         }
 
+        if (Input.GetKeyDown(KeyCode.L) && GlobalManager.GetInstance().cheatsActivated) {
+            GlobalManager.GetInstance().UnlockProgression();
+            Debug.Log("All levels unlocked");
+        }
+
 
         if (gamePaused) {Time.timeScale = 0;} else { Time.timeScale = 1;}
 
@@ -203,6 +208,7 @@ public class GameManager : MonoBehaviour
             CheckCreditsForItems();
             BuyStone.Select();
         }
+            
    }
 
     public void CheckCreditsForItems() {
@@ -228,8 +234,6 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
         }
     }
-
-
 
 }
 
