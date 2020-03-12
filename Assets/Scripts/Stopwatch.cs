@@ -12,7 +12,9 @@ public class Stopwatch : MonoBehaviour
     int hundredthsOfASecond = 0;
     
     float tmpTimer;
-    float timer = 100;
+    public float timer;
+
+    bool started = false;
     TextMeshProUGUI stopwatchText;
 
     // Start is called before the first frame update
@@ -56,6 +58,10 @@ public class Stopwatch : MonoBehaviour
         hundredthsOfASecond = 0;
         seconds = 0;
         minutes = 0;
+    }
+
+    public void SetTimer(float time) {
+        timer = time;
     }
 
     public static Stopwatch GetInstance()
