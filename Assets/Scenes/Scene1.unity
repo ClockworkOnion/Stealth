@@ -5100,12 +5100,12 @@ PrefabInstance:
     - target: {fileID: 689986477125532385, guid: 5c50da01901892043b89155812e91aba,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 689986478462938266, guid: 5c50da01901892043b89155812e91aba,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.41
+      value: 2.71
       objectReference: {fileID: 0}
     - target: {fileID: 689986478462938266, guid: 5c50da01901892043b89155812e91aba,
         type: 3}
@@ -5115,7 +5115,7 @@ PrefabInstance:
     - target: {fileID: 689986478462938266, guid: 5c50da01901892043b89155812e91aba,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.01
+      value: 8.02
       objectReference: {fileID: 0}
     - target: {fileID: 689986478462938266, guid: 5c50da01901892043b89155812e91aba,
         type: 3}
@@ -18587,6 +18587,7 @@ MonoBehaviour:
   awarenessPatrolling: 0.02
   awarenessPursuing: 0.1
   standardWalkspeed: 2
+  runningSpeed: 4
   gluedWalkspeed: 0.5
   gluedTimer: 0
   nextRouteCheckpoint: {fileID: 0}
