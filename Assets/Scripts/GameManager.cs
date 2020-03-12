@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     Text DebugText;
     PlayerControl player;
     GuardAI[] guardsList;
+    public bool playerIsHunted;
 
     [Header("Item Amount Texts")]
     public TextMeshProUGUI cloakingDeviceAmount;
@@ -90,6 +91,13 @@ public class GameManager : MonoBehaviour
 
         if (gamePaused) {Time.timeScale = 0;} else { Time.timeScale = 1;}
 
+
+        //////// Spieler gesehen? ///////////////
+        playerIsHunted = false; // zurücksetzen...
+        foreach(GuardAI guard in guardsList) {
+            if (guard.guardState == GuardAI.State.pursuing || guard.guardState == GuardAI.State.searching)
+                playerIsHunted = true;
+        }
     }
 
     public void SetGameLost() {

@@ -19,6 +19,8 @@ public class PlayerGoal : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider collider) {
+        if (GameManager.GetInstance().playerIsHunted)
+            return;
         if (collider.gameObject.tag=="Player") {
             GameManager.GetInstance().SetGameWon();
         }
