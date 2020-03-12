@@ -207,6 +207,9 @@ public class GameManager : MonoBehaviour
         if (shopCanvas.enabled) {
             CheckCreditsForItems();
             BuyStone.Select();
+        } else
+        {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
         }
             
    }
