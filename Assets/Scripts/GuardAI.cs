@@ -15,6 +15,7 @@ public class GuardAI : MonoBehaviour
     public float awarenessPatrolling = 0.02f;
     public float awarenessPursuing = 0.1f;
     public float standardWalkspeed = 2f;
+    public float runningSpeed = 8f;
     public float gluedWalkspeed = 0.5f;
     public float gluedTimer = 0;
     public Transform nextRouteCheckpoint;
@@ -94,6 +95,7 @@ public class GuardAI : MonoBehaviour
         {
             case State.patrolling:
                 animator.SetBool("walking", true);
+                animator.SetBool("running", false);
                 awareness = awarenessPatrolling;
                 searchLight.color = Color.cyan;
                 break;
@@ -128,6 +130,9 @@ public class GuardAI : MonoBehaviour
                 // Spielerposition verfolgen und vergessen
                 if (StateTimer > 0)
                 {
+                    animator.SetBool("walking", false);
+                    animator.SetBool("running", true);
+                    navMeshAgent.speed = runningSpeed;
                     StateTimer -= Time.deltaTime;
                     lastKnownPlayerPosition = player.GetMovementPrediction();
                     DistanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
@@ -135,6 +140,7 @@ public class GuardAI : MonoBehaviour
                 }
                 else
                 {
+                    navMeshAgent.speed = standardWalkspeed;
                     SetNextState(State.searching, searchDuration);
                 }
 
@@ -174,7 +180,7 @@ public class GuardAI : MonoBehaviour
             gluedTimer -= Time.deltaTime;
             navMeshAgent.speed = gluedWalkspeed;
         } else {
-            navMeshAgent.speed = standardWalkspeed;
+            navMeshAgent.speed = animator.GetBool("running") ? runningSpeed : standardWalkspeed;
         }
 
 
