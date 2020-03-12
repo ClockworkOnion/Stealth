@@ -189,7 +189,8 @@ public class PlayerControl : MonoBehaviour
         transform.LookAt(puncherPosition);
         mainCollider.enabled = false;
         playerMesh.SetActive(false);
-        Instantiate(RagdollPrefab,transform.position, Quaternion.identity);
+        GameObject ragdoll = Instantiate(RagdollPrefab,transform.position, Quaternion.identity);
+        ragdoll.GetComponent<RagdollControl>().ApplyForce(puncherPosition, transform);
     }
 
 

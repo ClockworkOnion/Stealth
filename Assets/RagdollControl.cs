@@ -8,7 +8,7 @@ public class RagdollControl : MonoBehaviour
     Rigidbody[] rigidbodies;
 
     // Start is called before the first frame update
-    void Start()
+    public void ApplyForce(Transform puncher, Transform player)
     {
         rigidbodies = GetComponentsInChildren<Rigidbody>();
         for (int i = 0; i<rigidbodies.Length; i++) {
