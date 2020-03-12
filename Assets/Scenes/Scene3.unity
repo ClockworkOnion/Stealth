@@ -5648,6 +5648,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e61e58d25441644ac89bb67f58f057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Scene1BackgroundMusic: {fileID: 0}
+  Scene2BackgroundMusic: {fileID: 0}
+  Scene3BackgroundMusic: {fileID: 0}
+  MenuBackGroundMusic: {fileID: 0}
+  CreditsBackgroundMusic: {fileID: 0}
 --- !u!114 &534669907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18400,6 +18405,11 @@ PrefabInstance:
       propertyPath: BuyStone
       value: 
       objectReference: {fileID: 774563821}
+    - target: {fileID: 5610506676345072941, guid: 638f670b7b8a89c4faff12f21f5a06f6,
+        type: 3}
+      propertyPath: levelTimer
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 5610506676345072942, guid: 638f670b7b8a89c4faff12f21f5a06f6,
         type: 3}
       propertyPath: m_LocalPosition.x
