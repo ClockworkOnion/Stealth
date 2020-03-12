@@ -126,6 +126,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  punchSound: {fileID: 8300000, guid: af7d344acb14088488975081fc23b077, type: 3}
 --- !u!195 &8330438353076989240
 NavMeshAgent:
   m_ObjectHideFlags: 0
