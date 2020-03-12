@@ -1,7 +1,7 @@
 ( ) Cloak Grafikeffekt
-( ) Cheatkeys
+(X) Cheatkeys
 ( ) PDF zum abgeben
-( ) End-Credits
+(X) End-Credits
 (X) Kleber Soundeffekt
 (X) Stein Soundeffekt
 (X) Hauptmenü Exceptions entfernen

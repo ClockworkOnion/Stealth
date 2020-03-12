@@ -25,6 +25,7 @@ public class PlayerControl : MonoBehaviour
     public GameObject SmokeBombPrefab;
     public GameObject GluePrefab;
     public GameObject StonePrefab;
+    public Material cloakMaterial;
 
     // Glue variablen
     float glueDuration;
@@ -39,6 +40,12 @@ public class PlayerControl : MonoBehaviour
     Vector3 lastPosition;
     Vector3 prediction;
     Vector3 wantedVelocity;
+    
+    // Cloak Effect
+    SkinnedMeshRenderer jacketRenderer,  bodyRenderer,  hairRenderer, pantsRenderer, faceRenderer;
+    Material jacketMem, hairMem, pantsMem;
+    Material[] bodyMems, faceMems;
+    Material[] cloakMaterials;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +54,26 @@ public class PlayerControl : MonoBehaviour
         playerAnimator = GetComponentInChildren<Animator>();
         mainCollider = GetComponent<BoxCollider>();
         childColliders = GetComponentsInChildren<BoxCollider>();
+
+        // Mesh renderers
+        jacketRenderer = GameObject.Find("Jacket").GetComponent<SkinnedMeshRenderer>();
+        bodyRenderer = GameObject.Find("Body").GetComponent<SkinnedMeshRenderer>();
+        hairRenderer = GameObject.Find("HAir").GetComponent<SkinnedMeshRenderer>();
+        pantsRenderer = GameObject.Find("Pants").GetComponent<SkinnedMeshRenderer>();
+        faceRenderer = GameObject.Find("Face").GetComponent<SkinnedMeshRenderer>();
+
+        // Alte Materials merken
+        jacketMem = jacketRenderer.material;
+        hairMem = hairRenderer.material;
+        pantsMem = pantsRenderer.material;
+        bodyMems = bodyRenderer.materials;
+        faceMems = faceRenderer.materials;
+
+        // Arrays vorbereiten
+        cloakMaterials = new Material[bodyRenderer.materials.Length];
+        for (int i = 0; i < cloakMaterials.Length; i++) {
+            cloakMaterials[i] = cloakMaterial;
+        }
     }
 
     // Update is called once per frame
@@ -63,10 +90,21 @@ public class PlayerControl : MonoBehaviour
 
             //// Cloak Timer ////
             if (cloakDuration > 0) {
-                cloakDuration -= Time.deltaTime;
-                GameManager.GetInstance().SetPlayerCloak(true);
+            cloakDuration -= Time.deltaTime;
+            GameManager.GetInstance().SetPlayerCloak(true);
+                jacketRenderer.material = cloakMaterial;
+                hairRenderer.material = cloakMaterial;
+                pantsRenderer.material = cloakMaterial;
+                bodyRenderer.materials = cloakMaterials;
+                faceRenderer.materials = cloakMaterials;
             } else {
                 GameManager.GetInstance().SetPlayerCloak(false);
+                // Alte Materials resetten
+                jacketRenderer.material = jacketMem;
+                bodyRenderer.materials = bodyMems;
+                hairRenderer.material = hairMem;
+                pantsRenderer.material = pantsMem;
+                faceRenderer.materials = faceMems;
             }
 
 
@@ -171,7 +209,7 @@ public class PlayerControl : MonoBehaviour
         if (GlobalManager.GetInstance().GetInventoryAsMap()[PlayerItems.cloakingDevice] > 0) {
             GlobalManager.GetInstance().SubtractItem(PlayerItems.cloakingDevice);
             GameManager.GetInstance().RefreshItemCount();
-            cloakDuration = 10f;
+            cloakDuration = 3f;
         }
     }
 
