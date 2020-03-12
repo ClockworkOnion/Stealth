@@ -64,6 +64,7 @@ public class GlobalManager : MonoBehaviour
             completedLevels[i] = false;
         }
         savedMoney = START_MONEY;
+        MoneyInCurrentRound = START_MONEY;
 
         savedItemMap = new Dictionary<PlayerItems, int>();
         savedItemMap.Add(PlayerItems.cloakingDevice, 0);
@@ -105,12 +106,12 @@ public class GlobalManager : MonoBehaviour
     /////// Shop Methoden    ////////////////////////////////////////
 
     public void AddItem(PlayerItems items) {
-        savedItemMap[items] += 1;
+        itemMapInCurrentLevel[items] += 1;
     }
 
     public void SubtractItem(PlayerItems items) {
-        if (savedItemMap[items] > 0) {
-            savedItemMap[items] -= 1;
+        if (itemMapInCurrentLevel[items] > 0) {
+            itemMapInCurrentLevel[items] -= 1;
         } else {
             Debug.Log("Fehler beim Item abziehen");
         }
