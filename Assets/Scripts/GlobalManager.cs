@@ -11,9 +11,12 @@ public class GlobalManager : MonoBehaviour
     static GlobalManager instance;
     bool[] completedLevels;
 
-    Dictionary<PlayerItems, int> itemMap;
-    const int START_MONEY = 500;
-    int money;
+    Dictionary<PlayerItems, int> savedItemMap;
+    Dictionary<PlayerItems, int> itemMapInCurrentLevel;
+
+    const int START_MONEY = 100;
+    int savedMoney;
+    int MoneyInCurrentRound;
 
     void Awake() {
         if (instance != null) {
@@ -42,7 +45,16 @@ public class GlobalManager : MonoBehaviour
     }
 
     public void LevelCompleted(int stageIndex) {
+        savedMoney = MoneyInCurrentRound;
+        savedItemMap = copyOfCurrentItemMap();
+
         completedLevels[stageIndex] = true;
+    }
+
+    public void LevelLost()
+    {
+        MoneyInCurrentRound = savedMoney;
+        itemMapInCurrentLevel = copyOfSavedItemMap();
     }
 
     public void ResetProgression() {
@@ -51,13 +63,19 @@ public class GlobalManager : MonoBehaviour
         {
             completedLevels[i] = false;
         }
-        money = START_MONEY;
+        savedMoney = START_MONEY;
 
-        itemMap = new Dictionary<PlayerItems, int>();
-        itemMap.Add(PlayerItems.cloakingDevice, 0);
-        itemMap.Add(PlayerItems.smokeBomb, 0);
-        itemMap.Add(PlayerItems.glue, 0);
-        itemMap.Add(PlayerItems.stone, 0);
+        savedItemMap = new Dictionary<PlayerItems, int>();
+        savedItemMap.Add(PlayerItems.cloakingDevice, 0);
+        savedItemMap.Add(PlayerItems.smokeBomb, 0);
+        savedItemMap.Add(PlayerItems.glue, 0);
+        savedItemMap.Add(PlayerItems.stone, 0);
+
+        itemMapInCurrentLevel = new Dictionary<PlayerItems, int>();
+        itemMapInCurrentLevel.Add(PlayerItems.cloakingDevice, 0);
+        itemMapInCurrentLevel.Add(PlayerItems.smokeBomb, 0);
+        itemMapInCurrentLevel.Add(PlayerItems.glue, 0);
+        itemMapInCurrentLevel.Add(PlayerItems.stone, 0);
     }
 
     public bool GetLevelCompleted(int stageIndex) {
@@ -65,37 +83,61 @@ public class GlobalManager : MonoBehaviour
     }
 
     public Dictionary<PlayerItems, int> GetInventoryAsMap() {
-        return itemMap;
+        return itemMapInCurrentLevel;
     }
 
     public int GetMoney() {
-        return money;
+        return MoneyInCurrentRound;
     }
 
     public void AddMoney(int amount) {
-        money += amount;
-        GameManager.GetInstance().SetMoneyText(money);
+        MoneyInCurrentRound += amount;
+        GameManager.GetInstance().SetMoneyText(MoneyInCurrentRound);
         
     }
 
     public void SubtractMoney(int amount) {
-        money -= amount;
-        GameManager.GetInstance().SetMoneyText(money);
+        MoneyInCurrentRound -= amount;
+        GameManager.GetInstance().SetMoneyText(MoneyInCurrentRound);
     }
 
-   
+
     /////// Shop Methoden    ////////////////////////////////////////
 
     public void AddItem(PlayerItems items) {
-        itemMap[items] += 1;
+        savedItemMap[items] += 1;
     }
 
     public void SubtractItem(PlayerItems items) {
-        if (itemMap[items] > 0) {
-            itemMap[items] -= 1;
+        if (savedItemMap[items] > 0) {
+            savedItemMap[items] -= 1;
         } else {
             Debug.Log("Fehler beim Item abziehen");
         }
+    }
+
+
+    //////////// Hilfsmethoden /////////////////////
+    private Dictionary<PlayerItems, int> copyOfCurrentItemMap()
+    {
+        Dictionary<PlayerItems, int> copy = new Dictionary<PlayerItems, int>();
+        copy.Add(PlayerItems.cloakingDevice, itemMapInCurrentLevel[PlayerItems.cloakingDevice]);
+        copy.Add(PlayerItems.smokeBomb, itemMapInCurrentLevel[PlayerItems.smokeBomb]);
+        copy.Add(PlayerItems.glue, itemMapInCurrentLevel[PlayerItems.glue]);
+        copy.Add(PlayerItems.stone, itemMapInCurrentLevel[PlayerItems.stone]);
+
+        return copy;
+    }
+
+    private Dictionary<PlayerItems, int> copyOfSavedItemMap()
+    {
+        Dictionary<PlayerItems, int> copy = new Dictionary<PlayerItems, int>();
+        copy.Add(PlayerItems.cloakingDevice, savedItemMap[PlayerItems.cloakingDevice]);
+        copy.Add(PlayerItems.smokeBomb, savedItemMap[PlayerItems.smokeBomb]);
+        copy.Add(PlayerItems.glue, savedItemMap[PlayerItems.glue]);
+        copy.Add(PlayerItems.stone, savedItemMap[PlayerItems.stone]);
+
+        return copy;
     }
 
 }
