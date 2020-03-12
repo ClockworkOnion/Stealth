@@ -48,7 +48,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2101008713}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -139,7 +139,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7401311923914392015}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -291,12 +291,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d101770b2643d974c9a28b10bb280f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMesh: {fileID: 7401311923552718737}
+  RagdollPrefab: {fileID: 8732654775645288164, guid: 8d68d9c6a69930943a124dd5cfce4681,
+    type: 3}
   defaultWalkSpeed: 2.7
   runSpeedFactor: 2
   smoothing: 0.28
   SmokeBombPrefab: {fileID: 3794641067632828686, guid: e8f96b4aa06a3ec428f57ab14127bf5a,
     type: 3}
   GluePrefab: {fileID: 5500222484695126134, guid: 0aa0ff9d817d349408569fe982490e60,
+    type: 3}
+  StonePrefab: {fileID: 5395361111303679752, guid: e11340adcab9b2b4bb0275a5fe4a08ff,
     type: 3}
   glueLifeDuration: 10
   glueSpeedFactor: 0.5
@@ -401,6 +406,12 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 6ebca788d3c46e3429bc9d6507518305, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e86ad0895e81dc4a8445660a30b8a0d, type: 3}
+--- !u!1 &7401311923552718737 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100040, guid: 2e86ad0895e81dc4a8445660a30b8a0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7401311923552684377}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7401311923553080305 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400040, guid: 2e86ad0895e81dc4a8445660a30b8a0d,
