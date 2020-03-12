@@ -100,6 +100,9 @@ public class GameManager : MonoBehaviour
 
     public void SetGameWon() {
         if (!gameOver) {
+            if (SceneManager.GetActiveScene().buildIndex >= 4) {
+                GameObject.Find("NextLevelButton").GetComponent<Button>().interactable = false;
+            }
             gameOver = true;
             gameWonCanvas.enabled = true;
             gameWonCanvas.GetComponentInChildren<Animator>().SetTrigger("displayText");
