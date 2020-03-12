@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
     public void SetGameLost() {
         if (!gameOver) {
             Debug.Log("Game Over");
+            GlobalManager.GetInstance().LevelLost();
             gameLostCanvas.GetComponentInChildren<Animator>().SetTrigger("ShowText");
             gameOver = true;
             gameLostCanvas.enabled = true;
