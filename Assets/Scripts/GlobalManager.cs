@@ -10,6 +10,7 @@ public class GlobalManager : MonoBehaviour
     public static readonly int NUMBER_OF_LEVELS = 3;
     static GlobalManager instance;
     bool[] completedLevels;
+    public bool soundOn = true;
 
     Dictionary<PlayerItems, int> savedItemMap;
     Dictionary<PlayerItems, int> itemMapInCurrentLevel;

@@ -109,4 +109,11 @@ public class MenuManager : MonoBehaviour
             graphicsButtonText.text = "Graphics: Ultra";
         }
     }
+
+    public void ToggleSound() {
+        Debug.Log("Sound toggled");
+        AudioListener.pause = !AudioListener.pause;
+        soundButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().SetText(AudioListener.pause ? "Sound: Off" : "Sound: On");
+        // soundButton.colors = AudioListener.pause ? ColorBlock. : Color.white;
+        }
 }
