@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
+    bool followPlayer = true;
     Transform cameraTarget;
     Vector3 offset;
     // Start is called before the first frame update
@@ -21,6 +21,12 @@ public class CameraController : MonoBehaviour
     }
 
     void FixedUpdate() {
-        transform.position = Vector3.Lerp(transform.position, cameraTarget.position + offset, 0.2f);
+        if (followPlayer) {
+            transform.position = Vector3.Lerp(transform.position, cameraTarget.position + offset, 0.2f);
+        }
+    }
+
+    public void SetFollow(bool following) {
+        followPlayer = following;
     }
 }

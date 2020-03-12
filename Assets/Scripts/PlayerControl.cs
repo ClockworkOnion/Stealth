@@ -8,7 +8,8 @@ public class PlayerControl : MonoBehaviour
     [Header("Ragdoll")]
     public GameObject playerMesh;
     public GameObject RagdollPrefab;
-    BoxCollider collider;
+    BoxCollider mainCollider;
+    BoxCollider[] childColliders;
 
     float xAxis, yAxis;
     bool runButton;
@@ -44,7 +45,8 @@ public class PlayerControl : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         playerAnimator = GetComponentInChildren<Animator>();
-        collider = GetComponent<BoxCollider>();
+        mainCollider = GetComponent<BoxCollider>();
+        childColliders = GetComponentsInChildren<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -70,9 +72,6 @@ public class PlayerControl : MonoBehaviour
 
             //// Input ////
             // Buttons
-            if (Input.GetKeyDown("u")) {
-                GetPunched();
-            }
 
             // Running
             runButton = Input.GetKey("x");
@@ -180,8 +179,15 @@ public class PlayerControl : MonoBehaviour
         glueDuration = duration;
     }
 
-    public void GetPunched() {
-        collider.enabled = false;
+    public void GetPunched(Transform puncherPosition) {
+        // for (int i = 0 ;)
+        // Spielstatsus verloren stellen
+        GameManager.GetInstance().SetGameLost();
+        GlobalManager.GetInstance().LevelLost();
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>().SetFollow(false);
+
+        transform.LookAt(puncherPosition);
+        mainCollider.enabled = false;
         playerMesh.SetActive(false);
         Instantiate(RagdollPrefab,transform.position, Quaternion.identity);
     }

@@ -225,8 +225,16 @@ public class GuardAI : MonoBehaviour
             Debug.Log("Player collision");
             animator.SetBool("walking", false);
             animator.SetTrigger("punch");
+            SetNextState(State.waiting,3);
+
+            // Invoke("PunchPlayer")
             // GameManager.GetInstance().SetGameLost();
+            // Noch Spielstatus auf Verloren stellen
         }
+    }
+
+    public void PunchPlayer() {
+            player.GetPunched(this.transform);
     }
 
     public void SetDestination(Transform newDestination)
