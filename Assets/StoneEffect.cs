@@ -7,16 +7,19 @@ public class StoneEffect : MonoBehaviour
     bool effectUsed;  // wird true, wenn der Stein irgendwo gegen geprallt ist
     bool pickedUp;
     Rigidbody rb;
+    public AudioClip stoneSound;
+    AudioSource soundPlay;
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        soundPlay = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void OnCollisionEnter (Collision collision) {
@@ -36,6 +39,7 @@ public class StoneEffect : MonoBehaviour
                 }
             }
             effectUsed = true;
+            soundPlay.PlayOneShot(stoneSound);
         }
     }
 

@@ -2,6 +2,6 @@
 ( ) Cheatkeys
 ( ) PDF zum abgeben
 ( ) End-Credits
-( ) Kleber Soundeffekt
-( ) Stein Soundeffekt
+(X) Kleber Soundeffekt
+(X) Stein Soundeffekt
 (X) Hauptmenü Exceptions entfernen
