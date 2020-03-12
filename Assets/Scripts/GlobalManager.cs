@@ -11,6 +11,7 @@ public class GlobalManager : MonoBehaviour
     static GlobalManager instance;
     bool[] completedLevels;
     public bool soundOn = true;
+    public bool cheatsActivated;
 
     Dictionary<PlayerItems, int> savedItemMap;
     Dictionary<PlayerItems, int> itemMapInCurrentLevel;
@@ -50,6 +51,13 @@ public class GlobalManager : MonoBehaviour
         savedItemMap = copyOfCurrentItemMap();
 
         completedLevels[stageIndex] = true;
+    }
+
+    public void UnlockProgression() {
+        for (int i = 0; i < NUMBER_OF_LEVELS; i++) {
+            completedLevels[i] = true;
+        }
+        Debug.Log("Levels unlocked");
     }
 
     public void LevelLost()

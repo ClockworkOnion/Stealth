@@ -84,8 +84,18 @@ public class GameManager : MonoBehaviour
             TogglePauseMenu();
         }
 
-        if (Input.GetKeyDown(KeyCode.S) && !gameOver && !gamePausedCanvas.enabled) {
+        if (Input.GetKeyDown(KeyCode.S) && !gameOver && !gamePausedCanvas.enabled && GlobalManager.GetInstance().cheatsActivated) {
             ToggleShopMenu(); // TODO : Am Ende rausnehmen, dass der Spieler den Shop öffnen kann
+        }
+
+        if (Input.GetKeyDown(KeyCode.C)) {
+            GlobalManager.GetInstance().cheatsActivated = !GlobalManager.GetInstance().cheatsActivated;
+            Debug.Log("Cheats " + (GlobalManager.GetInstance().cheatsActivated ? "activated" : "deactivated"));
+        }
+
+        if (Input.GetKeyDown(KeyCode.G) && GlobalManager.GetInstance().cheatsActivated) {
+            GlobalManager.GetInstance().AddMoney(100);
+            GameManager.GetInstance().SetMoneyText(GlobalManager.GetInstance().GetMoney());
         }
 
 
@@ -114,6 +124,7 @@ public class GameManager : MonoBehaviour
         if (!gameOver) {
             if (SceneManager.GetActiveScene().buildIndex >= 4) {
                 GameObject.Find("NextLevelButton").GetComponent<Button>().interactable = false;
+                SceneManager.LoadScene("FinishingScene");
             }
             gameOver = true;
             gameWonCanvas.enabled = true;
