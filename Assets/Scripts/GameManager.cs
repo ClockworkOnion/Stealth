@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     static GameManager gameManager;
     public bool gameOver = false;
     public bool gamePaused = false;
+    public float levelTimer;
 
     // Player Variablen
     public bool playerIsCloaked;
@@ -67,6 +68,9 @@ public class GameManager : MonoBehaviour
 
         // Debug
         DebugText = GameObject.Find("DebugText").GetComponent<Text>();
+
+        // Timer setzen
+        Stopwatch.GetInstance().SetTimer(levelTimer);
 
         // Shop am Levelanfang öffnen
         ToggleShopMenu();
