@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class RagdollControl : MonoBehaviour
 {
-    public float force = 10;
+    public float force = 2f;
     Rigidbody[] rigidbodies;
 
     // Start is called before the first frame update
-    public void ApplyForce(Transform puncher, Transform player)
+    public void ApplyForce(Vector3 puncher, Vector3 player)
     {
+        Vector3 punchForce = (puncher - player)*force;
         rigidbodies = GetComponentsInChildren<Rigidbody>();
         for (int i = 0; i<rigidbodies.Length; i++) {
-            rigidbodies[i].AddForce(-transform.forward*force);
+            rigidbodies[i].AddForce(-punchForce);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

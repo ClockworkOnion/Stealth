@@ -40,6 +40,10 @@ public class GuardAI : MonoBehaviour
     float animationSpeedMemory;
     bool isPaused;
 
+    // Audio
+    public AudioClip punchSound;
+    AudioSource audioSource;
+
     public enum State
     {
         patrolling,
@@ -55,6 +59,7 @@ public class GuardAI : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         searchLight = GetComponentInChildren<Light>();
         animator = GetComponentInChildren<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         // Variablen initialisieren
         awareness = awarenessPatrolling;
@@ -234,7 +239,9 @@ public class GuardAI : MonoBehaviour
     }
 
     public void PunchPlayer() {
-            player.GetPunched(this.transform);
+        player.GetPunched(this.transform);
+        audioSource.PlayOneShot(punchSound);
+
     }
 
     public void SetDestination(Transform newDestination)
