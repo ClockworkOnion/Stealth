@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
+    [Header("Ragdoll")]
+    public GameObject playerMesh;
+    public GameObject RagdollPrefab;
+    BoxCollider collider;
+
     float xAxis, yAxis;
     bool runButton;
     [Range(1f, 20f)]
@@ -39,6 +44,7 @@ public class PlayerControl : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         playerAnimator = GetComponentInChildren<Animator>();
+        collider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -64,6 +70,9 @@ public class PlayerControl : MonoBehaviour
 
             //// Input ////
             // Buttons
+            if (Input.GetKeyDown("u")) {
+                GetPunched();
+            }
 
             // Running
             runButton = Input.GetKey("x");
@@ -169,6 +178,12 @@ public class PlayerControl : MonoBehaviour
 
     public void SetGlueTimer(float duration) {
         glueDuration = duration;
+    }
+
+    public void GetPunched() {
+        collider.enabled = false;
+        playerMesh.SetActive(false);
+        Instantiate(RagdollPrefab,transform.position, Quaternion.identity);
     }
 
 

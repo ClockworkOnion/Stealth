@@ -15,7 +15,7 @@ public class GuardAI : MonoBehaviour
     public float awarenessPatrolling = 0.02f;
     public float awarenessPursuing = 0.1f;
     public float standardWalkspeed = 2f;
-    public float runningSpeed = 8f;
+    public float runningSpeed = 4f;
     public float gluedWalkspeed = 0.5f;
     public float gluedTimer = 0;
     public Transform nextRouteCheckpoint;
@@ -47,7 +47,8 @@ public class GuardAI : MonoBehaviour
         returning,
         searching,
         waiting,
-        confused
+        confused,
+        punching
     }
 
     void Awake() {
@@ -221,8 +222,10 @@ public class GuardAI : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            Debug.Log("Player collision");
             animator.SetBool("walking", false);
-            GameManager.GetInstance().SetGameLost();
+            animator.SetTrigger("punch");
+            // GameManager.GetInstance().SetGameLost();
         }
     }
 
