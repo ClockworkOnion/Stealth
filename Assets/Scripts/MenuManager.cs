@@ -53,6 +53,7 @@ public class MenuManager : MonoBehaviour
         newGameButton.Select();
         settingsCanvas.enabled = false;
         selectCanvas.enabled = false;
+        soundButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().SetText(AudioListener.pause ? "Sound: Off" : "Sound: On");
     }
 
     // Update is called once per frame
