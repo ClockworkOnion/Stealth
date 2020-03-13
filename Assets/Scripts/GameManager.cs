@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.EventSystems;
 
 [DefaultExecutionOrder(10)]
 public class GameManager : MonoBehaviour
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
     public Button BuySmokeBomb;
     public Button BuyGlue;
     public Button BuyStone;
+    public Button StartLevel;
 
     bool timeScalePause;
 
@@ -76,6 +78,9 @@ public class GameManager : MonoBehaviour
         // Shop am Levelanfang öffnen
         ToggleShopMenu();
         // Invoke("ToggleShopMenu",0.01f);
+
+        //Debug Text
+        SetDebugText("");
     }
 
     void Update() {
@@ -113,6 +118,11 @@ public class GameManager : MonoBehaviour
             if (guard.guardState == GuardAI.State.pursuing || guard.guardState == GuardAI.State.searching)
                 playerIsHunted = true;
         }
+
+
+        /////// Button auswahl im Shop ////////////////
+        if (shopCanvas.enabled && EventSystem.current.currentSelectedGameObject == null)
+            StartLevel.Select();
     }
 
     public void SetGameLost() {
